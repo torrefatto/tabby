@@ -35,6 +35,10 @@ COPY --from=downloader /dist/tabby_x86_64-manylinux2014-cuda${TABBY_CUDA}/tabby 
 COPY --from=downloader /dist/tabby_x86_64-manylinux2014-cuda${TABBY_CUDA}/llama-server /usr/local/bin/
 COPY entrypoint.sh /
 
+RUN apt update \
+    && apt install -y libgomp1 \
+  && rm -rf /var/lib/apt/lists/*
+
 VOLUME /tabby
 
 ENTRYPOINT ["/entrypoint.sh"]
